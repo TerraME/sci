@@ -1,0 +1,8 @@
+version = "0.1"
+license = "GPL"
+package = "sci"
+title = "Scientific and Mathematical Functions"
+date = "10 August 2015"
+authors = "Gilberto Camara"
+contact = "gilberto.camara@inpe.br"
+content = "Implements useful mathematical functions"

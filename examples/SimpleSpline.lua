@@ -1,11 +1,7 @@
-if not isLoaded("sci") then
-	import("sci")
-end
+-- @example Small example with spline.
 
-if not isLoaded("sysdyn") then
-	import("sysdyn")
-end
-
+import("sci")
+import("sysdyn")
 
 -- relation btw 
 waterSurface = Spline { 

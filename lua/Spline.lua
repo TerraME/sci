@@ -76,7 +76,7 @@ Spline_ = {
 metaTableSpline_ = {__index = Spline_}
 
 --- Build a Catmull-Roll spline from a set of points and returns interpolated value.
--- @arg argv.points the set of x-ordered points in format { { x = x0, y = y0 }, { x = x1, y = y1 }, ....}
+-- @arg argv.points the set of x-ordered points in format { { x = x0, y = y0 }, { x = x1, y = y1 }, ....}.
 -- @arg argv.steps  how many points to interpolate btw two data points. Default is 10.
 -- @usage spl = Spline {points = { { x = x0, y = y0 },, ....}, steps = 10}
 function Spline(argv)

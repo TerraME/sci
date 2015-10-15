@@ -1,5 +1,5 @@
 
-local buildSpline = function (self)
+local function buildSpline(self)
 	-- build a Catmull-Roll spline
 	local points = self.points
 	local steps  = self.steps or 10
@@ -25,15 +25,14 @@ local buildSpline = function (self)
 		end	
 		-- interpolate "step" new points btw two data points
 		for t = 0, 1, 1 / steps do
-			local x = 0.5 * ( ( 2 * p1.x ) + ( p2.x - p0.x ) * t + ( 2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x ) * t * t + ( 3 * p1.x - p0.x - 3 * p2.x + p3.x ) * t * t * t )
-			local y = 0.5 * ( ( 2 * p1.y ) + ( p2.y - p0.y ) * t + ( 2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y ) * t * t + ( 3 * p1.y - p0.y - 3 * p2.y + p3.y ) * t * t * t )
+			local x = 0.5 * ((2 * p1.x) + (p2.x - p0.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t * t + (3 * p1.x - p0.x - 3 * p2.x + p3.x) * t * t * t)
+			local y = 0.5 * (( 2 * p1.y) + (p2.y - p0.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t * t + (3 * p1.y - p0.y - 3 * p2.y + p3.y) * t * t * t)
 
 			--prevent duplicate entries
-			if (next (values) == nil) then  -- table is empty, insert first point
-				table.insert(values, { x = x , y = y }) 
-			else if  (values[#values].x ~= x and values[#values].y ~= y) then  
-						table.insert(values, { x = x , y = y }) 
-				 end
+			if next(values) == nil then  -- table is empty, insert first point
+				table.insert(values, {x = x , y = y}) 
+			elseif values[#values].x ~= x and values[#values].y ~= y then  
+				table.insert(values, {x = x , y = y}) 
 			end
 		end
 	end	
@@ -45,16 +44,27 @@ Spline_ = {
 	type_ = "Spline",
 	--- Returns the value of the spline for a given value.
 	-- @arg t A number value.
-	-- @usage spline:value(5)
+	-- @usage import("sci")
+	--
+	-- waterSurface = Spline{ 
+	--     points = {{x = 0, y = 0}, {x = 1000, y = 24.7}, 
+	--               {x = 2000, y = 35.3}, {x = 3000, y = 48.6}, 
+	--               {x = 4000, y = 54.3}, {x = 5000, y = 57.2}, 
+	--               {x = 6000, y = 61.6}, {x = 7000, y = 66.0}, 
+	--               {x = 8000, y = 69.9}
+	--     }
+	-- } 
+	--
+	-- print(waterSurface:value(1500))
 	value = function(self, t)
 		local iStart, iEnd, iMid = 1, #self.values, 0
 		local found = false
 		
-		verify(self.values[iEnd].x	>= t, " values outside range - last value is smaller that requested")
+		verify(self.values[iEnd].x >= t, " values outside range - last value is smaller that requested")
 		verify(self.values[iStart].x  <= t, " values outside range - first value is bigger than requested")
 		
 		while not found do
-			iMid = math.floor((iStart+iEnd)/2)
+			iMid = math.floor((iStart + iEnd) / 2)
 			if self.values[iMid].x == t then 
 				return self.values[iMid].y
 			else if self.values[iMid].x < t then
@@ -62,8 +72,8 @@ Spline_ = {
 						iStart = iMid
 					else
 						found = true
-						local w = ( t - self.values[iMid].x) / (self.values[iMid +1].x - self.values[iMid].x)
-						return (1 - w)*self.values[iMid].y + w*self.values[iMid +1].y
+						local w = (t - self.values[iMid].x) / (self.values[iMid + 1].x - self.values[iMid].x)
+						return (1 - w) * self.values[iMid].y + w * self.values[iMid +1].y
 					end
 				else  -- self.values[iMid].x > t
 					iEnd = iMid
@@ -78,7 +88,16 @@ metaTableSpline_ = {__index = Spline_}
 --- Build a Catmull-Roll spline from a set of points and returns interpolated value.
 -- @arg argv.points the set of x-ordered points in format { { x = x0, y = y0 }, { x = x1, y = y1 }, ....}.
 -- @arg argv.steps  how many points to interpolate btw two data points. Default is 10.
--- @usage spl = Spline {points = { { x = x0, y = y0 },, ....}, steps = 10}
+-- @usage import("sci")
+--
+-- waterSurface = Spline{ 
+--     points = {{x = 0, y = 0}, {x = 1000, y = 24.7}, 
+--               {x = 2000, y = 35.3}, {x = 3000, y = 48.6}, 
+--               {x = 4000, y = 54.3}, {x = 5000, y = 57.2}, 
+--               {x = 6000, y = 61.6}, {x = 7000, y = 66.0}, 
+--               {x = 8000, y = 69.9}
+--     }
+-- } 
 function Spline(argv)
 	mandatoryTableArgument(argv, "points", "table")
 	defaultTableValue(argv, "steps", 10)

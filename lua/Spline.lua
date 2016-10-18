@@ -6,14 +6,11 @@ local function buildSpline(self)
 		
 	local values = {}
 		
-	local px = nil
-	local py = nil
-
 	if #points < 3 then
 		return points
 	end
 	local count = #points - 1
-	local p0, p1, p2, p3, x, y
+	local p0, p1, p2, p3
 
 	for i = 1, count do
 		if i == 1 then
@@ -57,7 +54,8 @@ Spline_ = {
 	--
 	-- print(waterSurface:value(1500))
 	value = function(self, t)
-		local iStart, iEnd, iMid = 1, #self.values, 0
+		local iStart, iEnd = 1, #self.values
+		local iMid
 		local found = false
 		
 		verify(self.values[iEnd].x >= t, " values outside range - last value is smaller that requested")

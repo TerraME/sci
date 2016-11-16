@@ -19,7 +19,7 @@ local function buildSpline(self)
 			p0, p1, p2, p3 = points[#points - 2], points[#points - 1], points[#points], points[#points]
 		else
 			p0, p1, p2, p3 = points[i - 1], points[i], points[i + 1], points[i + 2]
-		end	
+		end
 		-- interpolate "step" new points btw two data points
 		for t = 0, 1, 1 / steps do
 			local x = 0.5 * ((2 * p1.x) + (p2.x - p0.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t * t + (3 * p1.x - p0.x - 3 * p2.x + p3.x) * t * t * t)
@@ -32,11 +32,11 @@ local function buildSpline(self)
 				table.insert(values, {x = x , y = y}) 
 			end
 		end
-	end	
+	end
 
 	return values
 end
-	
+
 Spline_ = { 
 	type_ = "Spline",
 	--- Returns the value of the spline for a given value.
@@ -56,28 +56,26 @@ Spline_ = {
 	value = function(self, t)
 		local iStart, iEnd = 1, #self.values
 		local iMid
-		local found = false
 		
 		verify(self.values[iEnd].x >= t, " values outside range - last value is smaller that requested")
 		verify(self.values[iStart].x  <= t, " values outside range - first value is bigger than requested")
 		
-		while not found do
+		while true do
 			iMid = math.floor((iStart + iEnd) / 2)
 			if self.values[iMid].x == t then 
 				return self.values[iMid].y
 			else if self.values[iMid].x < t then
-					if self.values[iMid+1].x < t then
+					if self.values[iMid + 1].x < t then
 						iStart = iMid
 					else
-						found = true
 						local w = (t - self.values[iMid].x) / (self.values[iMid + 1].x - self.values[iMid].x)
-						return (1 - w) * self.values[iMid].y + w * self.values[iMid +1].y
+						return (1 - w) * self.values[iMid].y + w * self.values[iMid + 1].y
 					end
 				else  -- self.values[iMid].x > t
 					iEnd = iMid
 				end
 			end
-		end   
+		end
 	end
 }
 

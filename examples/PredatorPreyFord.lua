@@ -1,5 +1,5 @@
 -- @example Predator-Prey Oscillations on the Kaibab Plateau.
--- Ford, F. A. (1999). Modeling the environment: an introduction to system 
+-- Ford, F. A. (1999). Modeling the environment: an introduction to system
 -- dynamics models of environmental systems. Island Press.
 
 import("sci")
@@ -30,8 +30,8 @@ PredatorPreyFord = Model{
 	predator = 46, -- number of predators,
 	finalTime = 1932,
 	init = function(model)
-		model.prey = function(model)
-			return model.deer / 80
+		model.prey = function(self)
+			return self.deer / 80
 		end
 
 		model.chart = Chart{
@@ -60,5 +60,5 @@ PredatorPreyFord = Model{
 	end
 }
 
-PredatorPreyFord:run() 
+PredatorPreyFord:run()
 

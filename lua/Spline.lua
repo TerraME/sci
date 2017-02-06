@@ -60,7 +60,7 @@ Spline_ = {
 
 		while true do
 			iMid = math.floor((iStart + iEnd) / 2)
-			if self.values[iMid].x == t then 
+			if self.values[iMid].x == t then
 				return self.values[iMid].y
 			else if self.values[iMid].x < t then
 					if self.values[iMid + 1].x < t then
@@ -89,7 +89,7 @@ metaTableSpline_ = {__index = Spline_}
 --         x = {0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000},
 --         y = {0, 24.7, 35.3, 48.6, 54.3, 57.2, 61.6, 66.0, 69.9}
 --     }
--- } 
+-- }
 function Spline(argv)
 	mandatoryTableArgument(argv, "points", "DataFrame")
 	defaultTableValue(argv, "steps", 10)

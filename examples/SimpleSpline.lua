@@ -2,20 +2,20 @@
 
 import("sci")
 
--- relation btw 
-waterSurface = Spline { 
+-- relation btw
+waterSurface = Spline {
 	points = DataFrame{
 		x = {0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000},
 		y = {0, 24.7, 35.3, 48.6, 54.3, 57.2, 61.6, 66.0, 69.9}
-	},
+	}
 	steps = 1
-} 
+}
 
 spline = Model{
 	data    = 0.0,
 	surface = 0.0,
 	finalTime     = 80,
-	
+
 	init = function(model)
 		model.chart = Chart{
 			target = model,

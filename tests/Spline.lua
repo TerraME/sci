@@ -11,7 +11,6 @@ return{
 		}
 
 		unitTest:assertType(waterSurface, "Spline")
-		unitTest:assertType(waterSurface, "Spline")
 	end,
 	value = function(unitTest)
 		local waterSurface = Spline {

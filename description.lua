@@ -1,4 +1,4 @@
-version = "0.4"
+version = "0.5"
 license = "GPL"
 package = "sci"
 title = "Scientific and Mathematical Functions"
